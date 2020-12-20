@@ -34,15 +34,15 @@ function code(inText) {
 
 decode(inText)
 
-function decode(coded) {
+function decode(inText) {
 	let resStr = '';
 	let i = 0, j = 0;
-	for (let i = 0; i < inText.length;) {
+	while (i < inText.length) {
 		if (inText.charAt(i) == '#') {
 			j = inText.charAt(i + 1);
 			for (k = 0; k < j; k++)
 				resStr += inText.charAt(i + 2);
-			i += 3;
+			i += 2;
 		}
 		else {
 			resStr += inText.charAt(i);
