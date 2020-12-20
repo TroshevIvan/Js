@@ -14,39 +14,60 @@ function code(){
 	document.getElementById('codedMessage').value = mes.join('') + control.join('');
 }
 
-function decode(){
-	let mes = document.getElementById('codedMessage').value;
-	mes = mes.split('');
-	for(let i = 0; i < mes.length; i++)
-		mes[i] *= 1;
-	let placeOfError = 5;
-	if ((mes[0] + mes[1] + mes[3])%2!=mes[4] && (mes[1] + mes[2] + mes[3])%2 != mes[5] && (mes[0] + mes[2] + mes[3])%2 != mes[6])
+function decode()
+{
+	let coded = document.getElementById('codedMessage').value;
+	coded = coded.split('');
+	for(let i = 0; i < coded.length; i++)
+	coded[i] *= 1;
+	let firstControl = (coded[0] + coded[1] + coded[3]) % 2
+	let secondControl = (coded[1] + coded[2] + coded[3]) % 2
+	let thirdControl = (coded[0] + coded[2] + coded[3]) % 2
+	let error = "";
+	if (thirdControl != coded[6])
 	{
-		mes[3] = Math.abs(mes[3] - 1);
-		placeOfError = 4;
-	} 
-	else if ((mes[0] + mes[1] + mes[3])%2 != mes[4] && (mes[1] + mes[2] + mes[3])%2 != mes[5]) 
+		error = "Place of error 7"
+		coded[6] = Math.abs(coded[6] - 1)
+	}
+	else if (secondControl != coded[5])
 	{
-		mes[1] = Math.abs(mes[1] - 1);
-		placeOfError = 2;
-	} 
-	else if ((mes[1] + mes[2] + mes[3])%2 != mes[5] && (mes[0] + mes[2] + mes[3])%2 != mes[6]) 
+		error = "Place of error 6"
+		coded[5] = Math.abs(coded[5] - 1)
+	}
+	else if (firstControl != coded[4])
 	{
-		mes[2] = Math.abs(mes[2] - 1);
-		placeOfError = 3;
-	} 
-	else if ((mes[0] + mes[1] + mes[3])%2 != mes[4] && (mes[0] + mes[2] + mes[3])%2 != mes[6]) 
+		error = "Place of error 5"
+		coded[4] = Math.abs(coded[4] - 1)
+	}
+	else if (firstControl != coded[4] && secondControl == coded[5] && thirdControl != coded[6])
 	{
-		mes[0] = Math.abs(mes[0] - 1)
-		placeOfError = 1;
-	};
+		error = "Place of error 4";
+		coded[3] = Math.abs(coded[3] - 1);
+	}
+	else if (secondControl != coded[5] && thirdControl != coded[6])
+	{
+		error = "Place of error 3"
+		coded[2] = Math.abs(coded[2] - 1);
+	}
+	else if (firstControl != coded[4] && secondControl != coded [5])
+	{
+		error = "Place of error 2"
+		coded[1] = Math.abs(coded[1] - 1);
+	}
+	else if (firstControl != coded[4] && thirdControl != coded[6])
+	{
+		error = "Place of error 1"
+		coded[0] = Math.abs(coded[0] - 1)
+	}
 	
-	let point = new Array();
+	let final = new Array();
 	for(let i = 0; i < 4; i++)
-		point[i] = mes[i];
-	document.getElementById('decodedMessage').value = point.join('');
-	if (placeOfError == 5)
-		document.getElementById('placeOfError').textContent = 'placeOfError: No Errors';
+		final[i] = coded[i];
+	document.getElementById('decodedMessage').value = final.join('');
+	if (error == "")
+		document.getElementById('placeOfError').textContent = 'No error';
+	else 
+		document.getElementById('placeOfError').textContent = error;
 }
 
 </script>
