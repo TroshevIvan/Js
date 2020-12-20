@@ -50,7 +50,7 @@ while (flag)
 			break;
 			
 		case 'cmp':
-			(mem[mem[ip + 1]] == mem[mem[ip + 2]])
+			if(mem[mem[ip + 1]] == mem[mem[ip + 2]])
 				mem[mem[ip + 3]] = 1;
 			else
 				mem[mem[ip + 3]] = 0;
@@ -62,12 +62,10 @@ while (flag)
 			
 		case 'findDivision':
 			if(mem[mem[ip+2]]!=0)
-			{
 				mem[mem[ip + 3]] = mem[mem[ip + 1]] % mem[mem[ip + 2]];
 				mem[mem[ip + 1]] = mem[mem[ip + 2]];
 				mem[mem[ip + 2]] = mem[mem[ip + 3]];
 				ip += 5;
-			}
 			else 
 				ip = parseFloat(mem[ip + 4]);
 			break;
