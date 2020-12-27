@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="400" height="400" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<input type='button' value='Do step' onclick='doStep()'>
+<input type='button' value='Start' onclick='setInterval(doStep, 200)'>
+
+
+<script>
+let fieldSize = 50;
+let cellSize = 20;
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "#FF0000";
+
+let prevField = new Array(fieldSize);
+let field = new Array(fieldSize);
+
+let  j = i = 0;
+for (i = 0; i < fieldSize; i++){
+	prevField[i] = new Array(fieldSize);
+	field[i] = new Array(fieldSize);
+}
+
+for(i = 0; i < fieldSize; i++)
+	for(j = 0; j < fieldSize; j++)
+	{
+		if (Math.random() > 0.5)
+		{
+			prevField[i][j] = 0;
+			ctx.fillStyle = "#FFFFFF";//rgb
+		}
+		else
+		{
+			prevField[i][j] = 1;
+			ctx.fillStyle = "#FF0000";//rgb
+		}
+		ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+	}
+
+		
+
+function NeighbourCount(x, y){
+	let count = 0
+	for (let i = -1; i <= 1; i++)
+		for (let j = -1; j <= 1; j++)
+			if (!(i == 0 && j == 0) && prevField[(x + i + fieldSize) % fieldSize][(y + j + fieldSize) % fieldSize])
+				count++;
+	return count;
+}
+
+function doStep(){
+	for (let i = 0; i < fieldSize; i++)
+        for (let j = 0; j < fieldSize; j++)
+		{
+			if (prevField[i][j] == 0)
+			{
+				if (NeighbourCount(i, j) == 3){
+					field[i][j] = 1;
+					ctx.fillStyle = "#FF0000";
+					ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+					}
+				else{
+					field[i][j] = 0;
+					ctx.fillStyle = "#FFFFFF";
+					ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+					}
+			}
+			else if (prevField[i][j] == 1)
+			{
+				if (NeighbourCount(i, j) == 2 || NeighbourCount(i, j) == 3)
+				{
+					field[i][j] = 1;
+					ctx.fillStyle = "#FF0000";
+					ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+				}
+				else 
+				{
+					field[i][j] = 0;
+					ctx.fillStyle = "#FFFFFF";
+					ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+				}
+			}
+			
+		}
+	CopyFieldToPrevField();
+}
+
+
+function CopyFieldToPrevField(){
+	for (let i = 0; i < fieldSize; i++)
+		for (let j = 0; j < fieldSize; j++)
+			prevField[i][j] = field[i][j];
+}
+
+
+
+</script>
+
+</body>
+</html>
