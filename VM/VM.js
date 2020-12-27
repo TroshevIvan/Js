@@ -67,13 +67,6 @@ while (flag)
 				ip = parseInt(mem[ip + 2]);
 			break;
 			
-		case 'jnz':
-            if (mem[mem[ip + 1]] == 0)
-                ip = parseInt(mem[ip + 2]);
-            else
-                ip += 3;
-            break;
-			
 		case 'divider':
 			if (mem[mem[ip + 1]] > mem[mem[ip + 2]]) 
 					mem[mem[ip + 1]] -= mem[mem[ip + 2]];	
